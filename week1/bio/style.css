@@ -1,4 +1,4 @@
-   /* 1. CSS Variables & Reset  */
+   /* 1. CSS Variables & main body  */
 :root {
     --bg-color: #0f172a;
     --card-bg: #1e293b;
@@ -26,4 +26,71 @@ body {
     flex-direction: column;
     min-height: 100vh;
     padding: 2rem 1rem;
+}
+
+/* 2. Navigation Header */ 
+.site-header {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+}
+
+.logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* 3. Hero Section */
+.hero {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    padding: 2.5rem 1rem;
+}
+
+.hero img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.2);
+}
+
+.hero h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
 }
