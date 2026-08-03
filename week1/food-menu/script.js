@@ -12,8 +12,10 @@ let check_out_button = document.getElementById("checkout-btn")
 
 check_out_button.addEventListener("click", check_out_pressed )
 let orders = { }
+//{"ፍርፍር": 2, "እንቁላል": 1}
 
 let prices = { }
+//{"ፍርፍር": 50, "እንቁላል": 20}
 
 let totalPrice = 0
 
