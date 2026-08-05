@@ -1,5 +1,5 @@
 let addButtons = document.getElementsByClassName("add-to-cart");
-console.log(addButtons)
+// console.log(addButtons)
 let ordered_items_list = document.getElementById("selected-items-list")
 
 let total_price_display = document.getElementById("order-total")
@@ -91,6 +91,7 @@ function onAddButtonPressed(e){
 
 function change_quantity(e){
     let key = e.currentTarget.dataset.item;
+    console.log(key)
 
     if (e.currentTarget.innerText == "Remove"){
         delete orders[key];
