@@ -20,14 +20,15 @@ def accept_student_info():
     grades = {}
     for subject in subjects:
         mark = float(input(f"Enter marks for {subject}: "))
-        if mark < 0 or mark > 100:
+        
+        while mark < 0 or mark > 100:
             print("Invalid mark. Please enter a value between 0 and 100.")
             mark = float(input(f"Enter marks for {subject}: "))
             
         marks.append(mark)
         grades[subject] = find_grade(mark)
     
-    average = (sum(marks)/ len(marks)).toFixed(2)
+    average = (sum(marks)/ len(marks))
     status = "Pass" if average >= 50 else "Fail"
     
     return {
