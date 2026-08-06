@@ -26,7 +26,8 @@ def login ():
             if attempts < times:
                 print(f"Invalid username or password. You have {times - attempts} attempts left.")
                 print(f"Please wait {sleep_time[attempts-1]} seconds before trying again.")
-                time.sleep(sleep_time * attempts)
+                wait_time = sleep_time[attempts - 1]
+                time.sleep(wait_time)
                 # print("sleep_time: ", sleep_time[attempts-1])
     return{
         "message":"Account Locked. Please try again later.",

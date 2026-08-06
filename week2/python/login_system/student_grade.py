@@ -16,6 +16,7 @@ def find_grade(mark):
  
 def accept_student_info(name):
     # name = input("Enter the student's name: ")
+    print(f"Hello {name}, please enter the marks for the following subjects:")
     
     subjects = ["Math", "Science", "English"]
     marks =[]
@@ -41,7 +42,7 @@ def accept_student_info(name):
     }
 
 login_result = login()
-print(login_result) 
+print(login_result["message"]) 
 if login_result["is_logged_in"] == True:
     student  = accept_student_info(login_result["name"])
     print("Your Information:" , student)
