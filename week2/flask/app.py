@@ -36,6 +36,19 @@ def hello():
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
         return render_template('index.html', tasks = tasks)  
+    
+@app.route("/delete/<int:id>")
+def delete(id):
+    task_to_delete = Todo.query.get_or_404(id)
+    
+    try:
+        db.session.delete(task_to_delete)
+        db.session.commit()
+        
+        return redirect('/')
+    except:
+        return "There something wrong with delete functionality."
+            
 
 if __name__ == '__main__': # Check if the script is run directly
     app.run(debug=True) # Run the app in debug mode
