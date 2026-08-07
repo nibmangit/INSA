@@ -1,9 +1,85 @@
-*{
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 
-body{
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5f5f5;
+/* Navbar */
+.nav {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}
+
+.nav h2 {
+    margin: 0;
+}
+
+/* Page Container */
+.main {
+    padding: 20px;
+}
+
+.content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+ 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+ 
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.edit-link {
+    color: blue;
+}
+
+.delete-link {
+    color: red;
+}
+
+/* Form Styling */
+.add-task-form {
+    margin-top: 20px;
+}
+
+.add-task-form input {
+    padding: 8px;
+    width: 250px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-task-form button {
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-task-form button:hover {
+    background-color: #555;
 }
