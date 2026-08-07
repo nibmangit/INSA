@@ -5,6 +5,10 @@
     <div class= "content">
         <h1>Welcome to the Flask App!</h1> 
 
+        {% if tasks|length < 1 %}
+        <p> No tasks yet</p>
+        {% else %}
+
         <table>
             <tr>
                 <th> Task </th>
@@ -23,6 +27,8 @@
                 </tr>
              {% endfor %}
         </table>
+
+        {% endif %}
 
         <form action= "/" method= "post" class= "add-task-form">
             <input type= "text" name= "task" placeholder= "Enter a new task" required>
