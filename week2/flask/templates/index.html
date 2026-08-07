@@ -11,15 +11,17 @@
                 <th> Added </th>
                 <th> Actions </th>
             </tr>
-            <tr>
-                <td>  </td>
-                <td>  </td>
-                <td> 
-                    <a href= " " class="edit-link" >Edit</a> |
-                    <a href= " " class="delete-link" >Delete</a>
-                </td>
-            </tr>
-             
+
+            {% for task in tasks%}
+                <tr>
+                    <td>{{ task.content}}  </td>
+                    <td>{{task.date_created.date()}} </td>
+                    <td> 
+                        <a href= " " class="edit-link" >Edit</a> |
+                        <a href= " " class="delete-link" >Delete</a>
+                    </td>
+                </tr>
+             {% endfor %}
         </table>
 
         <form action= "/" method= "post" class= "add-task-form">
