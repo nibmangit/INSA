@@ -49,6 +49,19 @@ def delete(id):
     except:
         return "There something wrong with delete functionality."
             
+@app.route('/edit/<int:id>', methods = ["POST", "GET"])
+def edit(id):
+    task = Todo.query.get_or_404(id)
+    if request.method== 'POST':
+        task.content = request.form["task"]
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "There is an issue updating the task."
+    else:
+        return render_template('update.html', task=task)
+
 
 if __name__ == '__main__': # Check if the script is run directly
     app.run(debug=True) # Run the app in debug mode
