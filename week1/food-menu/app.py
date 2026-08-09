@@ -20,8 +20,19 @@ def get_menu():
 @app.route('/api/orders', methods=["POST"])
 def create_order():
     order = request.get_json()
-    print(order)
-    return "Saved seccessfully"
+    
+    if not order or not order.get("items"):
+        return jsonify({"error": "Orders must contain at least one item"})
+    
+    with open("orders.json", "r", encoding="utf-8") as file:
+        orders = json.load(file)
+        
+    orders.append(order)
+    
+    with open("orders.json", "w", encoding="utf-8") as file:
+        json.dump(orders, file, ensure_ascii=False, indent=4)
+        
+    return jsonify(order), 201
 
 
 if __name__ == "__main__":
