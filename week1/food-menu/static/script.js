@@ -156,50 +156,100 @@ function change_quantity(e){
    
 }
 
-function check_out_pressed(E){
-    if (Object.keys(orders).length > 0){
-        alert("check out sucessfull")
-
-        ordered_items_list.innerHTML = '';
-        total_price_display.innerText = 0
-
-        for (const key in orders) {
-            delete orders[key];
-        }
-        for (const key in prices) {
-            delete prices[key];
-        }
-
-        add_no_orders_yet()
+function calculate_order_totals(){
+    let subtotal = 0;
+    for (const [key, value] of Object.entries(orders)) {
+        subtotal += prices[key] * parseInt(value);
     }
-    else{
-        alert("no orders!")
 
+    let discount = 0;
+
+    if (subtotal > 100) {
+        discount = subtotal * 0.20;
     }
+    else if (subtotal > 50) {
+        discount = subtotal * 0.10;
+    }
+
+    let total = Math.round(subtotal - discount);
+
+    return {
+        subtotal: subtotal,
+        discount: discount,
+        total: total
+    };
 }
 
-function update_discount_display(total_cost){
-     if (total_cost > 100){
-        discout_display.innerText = "20% discount applied"
-
-        total_price_display.innerText = Math.round(total_cost * 0.8);
+function check_out_pressed(E){
+    if (Object.keys(orders).length <= 0){
+        alert("no orders!");
+        return;
     }
-    else if(total_cost > 50){
-        discout_display.innerText = "10% discount applied"
-
-        total_price_display.innerText = Math.round(total_cost * 0.9);
+    let orderData = {
+        items:[],
+        subtotal:0,
+        discount: 0,
+        total: 0
     }
-    else{
-        discout_display.innerText = ''
 
-        let total_cost = 0;
+    for (const [key, value] of Object.entries(orders)){
+        orderData.items.push({
+            name: key,
+            quantity: value,
+            price: prices[key]
+        });    
+    }
+    
+    let totals = calculate_order_totals();
 
-        for (const[key, value] of Object.entries(orders)){
-                total_cost += prices[key] * parseInt(value);
+    orderData.subtotal = totals.subtotal;
+    orderData.discount = totals.discount;
+    orderData.total = totals.total;
+
+    console.log("sending order: ", orderData)
+
+    fetch("/api/orders", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+    }).then(response => response.json()).then(data => {
+        console.log("server response: ", data);
+        alert("Check out seccesful");
+
+        ordered_items_list.innerHTML = "";
+        total_price_display.innerHTML = "0";
+        discout_display.innerHTML = "";
+
+        for(const key in orders){
+            delete orders[key]
         }
+        for(const key in prices){
+            delete prices[key]
+        }
+        add_no_orders_yet();
+    }).catch(error =>{
+        console.log("Error: ", error);
+        alert("Something went wrong.")
+    })
+     
+}
 
-        total_price_display.innerText = total_cost;
+function update_discount_display(){
+    let totals = calculate_order_totals();
+    if (totals.discount > 0) {
+        let discount_percentage =
+            totals.subtotal > 100 ? 20 : 10;
+
+        discout_display.innerText =
+            `${discount_percentage}% discount applied`;
+
     }
+    else { 
+        discout_display.innerText = "";
+    }
+    total_price_display.innerText = totals.total;
 }
 
 function add_no_orders_yet(){

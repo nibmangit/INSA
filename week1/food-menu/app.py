@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 
@@ -15,6 +15,13 @@ def home():
 def get_menu():
     menu = load_menu()
     return jsonify(menu)
+
+
+@app.route('/api/orders', methods=["POST"])
+def create_order():
+    order = request.get_json()
+    print(order)
+    return "Saved seccessfully"
 
 
 if __name__ == "__main__":
