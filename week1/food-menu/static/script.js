@@ -1,5 +1,11 @@
-let addButtons = document.getElementsByClassName("add-to-cart");
-// console.log(addButtons)
+// let addButtons = document.getElementsByClassName("add-to-cart");
+// for (let button of addButtons){
+//     button.addEventListener("click", onAddButtonPressed)
+// }
+// we have to remove this one and place it inside the display menu function
+// after the card creates because if we put it here we can't applay the add button
+// functionality 'cause it loads before the food card added to the hrml by display menu
+
 let ordered_items_list = document.getElementById("selected-items-list")
 
 let total_price_display = document.getElementById("order-total")
@@ -8,21 +14,12 @@ let discout_display = document.getElementById("discount-notice")
 
 let check_out_button = document.getElementById("checkout-btn")
 
-
-
 check_out_button.addEventListener("click", check_out_pressed )
-let orders = { }
-//{"ፍርፍር": 2, "እንቁላል": 1}
+let orders = { } 
 
-let prices = { }
-//{"ፍርፍር": 50, "እንቁላል": 20}
+let prices = { } 
 
-let totalPrice = 0
-
-for (let button of addButtons){
-    button.addEventListener("click", onAddButtonPressed)
-}
-
+let totalPrice = 0 
 function onAddButtonPressed(e){
     let food = e.currentTarget.parentElement.querySelector("h3")
     let price = e.currentTarget.parentElement.querySelector("span").innerText
@@ -230,5 +227,35 @@ function showNotification(message) {
 
 // featch the menu items
 fetch("/api/menu").then(response => response.json()).then(menu=>{
-    console.log(menu)
+    displayMenu(menu)
 });
+
+function displayMenu(menu){
+    let foodMenu = document.getElementById("food-menu")
+    let drinkMenu = document.getElementById("drink-menu")
+    for (const item of menu){
+        let card =  document.createElement("div")
+        card.className = "food-card"
+
+        card.innerHTML = `
+                <img src="static/images/${item.image}">
+
+                <div class="card-content">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                    <span class="price">${item.price} birr</span>
+                    <button class = "add-to-cart">add to cart</button>
+                </div> 
+                
+                `;
+        
+        let addButton = card.querySelector(".add-to-cart");
+        addButton.addEventListener("click", onAddButtonPressed);
+
+        if(item.category === "food"){
+            foodMenu.appendChild(card)
+        }else if (item.category === "drink"){
+            drinkMenu.appendChild(card)
+        }
+    }
+}
