@@ -227,3 +227,8 @@ function showNotification(message) {
         notification.classList.remove('show');
     }, 2000);
 }
+
+// featch the menu items
+fetch("/api/menu").then(response => response.json()).then(menu=>{
+    console.log(menu)
+});

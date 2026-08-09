@@ -1,0 +1,106 @@
+[
+    {
+        "id": 1,
+        "name": "ፍርፍር",
+        "description": "A traditional Ethiopian breakfast dish made with shredded injera sautéed in spiced butter and seasoned with berbere. Savory, tangy, and comforting—best enjoyed with a side of fresh injera.",
+        "price": 50,
+        "image": "firfir.jpg",
+        "category": "food"
+    },
+    {
+        "id": 2,
+        "name": "ዶሮ ወጥ",
+        "description": "A classic Ethiopian chicken stew simmered in a rich berbere spice sauce with onions, garlic, and ginger. Served with hard-boiled eggs and paired perfectly with injera. Bold, spicy, and deeply flavorful.",
+        "price": 100,
+        "image": "doro wet.jpg",
+        "category": "food"
+    },
+    {
+        "id": 3,
+        "name": "ቴስቲ ሶያ",
+        "description": "Tender soy chunks sautéed with onions, peppers, and Ethiopian spices. A flavorful vegetarian twist on the classic tibs, served hot with injera.",
+        "price": 30,
+        "image": "testi-soya-tibs.jpg",
+        "category": "food"
+    },
+    {
+        "id": 4,
+        "name": "ሽሮ",
+        "description": "A smooth, flavorful stew made from roasted chickpea or broad bean flour, simmered with onions, garlic, and berbere. Creamy, comforting, and best enjoyed with injera.",
+        "price": 30,
+        "image": "shiro.jpg",
+        "category": "food"
+    },
+    {
+        "id": 5,
+        "name": "ክክ",
+        "description": "Split peas simmered in a bold berbere sauce with onions and garlic. Rich, spicy, and hearty—served with injera for a vibrant, flavorful classic.",
+        "price": 10,
+        "image": "kik.jpg",
+        "category": "food"
+    },
+    {
+        "id": 6,
+        "name": "ቋንጣ ፍርፍር",
+        "description": "Shredded injera sautéed with spiced butter and berbere, mixed with strips of dried beef (quanta). Smoky, tangy, and hearty—an Ethiopian favorite best enjoyed with fresh injera.",
+        "price": 25,
+        "image": "quanta-firfirz.jpg",
+        "category": "food"
+    },
+    {
+        "id": 7,
+        "name": "ሸክላ ጥብስ",
+        "description": "Succulent beef cubes sautéed with onions, peppers, and Ethiopian spices, served sizzling hot in a traditional clay pot. Smoky, spicy, and full of flavor—best enjoyed with injera.",
+        "price": 100,
+        "image": "shekla-tibs.jpg",
+        "category": "food"
+    },
+    {
+        "id": 8,
+        "name": "በየ አይነቱ",
+        "description": "A vibrant platter of assorted Ethiopian dishes—lentils, peas, greens, and stews—served together on injera. Colorful, diverse, and perfect for sharing the full taste of Ethiopia.",
+        "price": 25,
+        "image": "beye_aynetu.jpg",
+        "category": "food"
+    },
+    {
+        "id": 9,
+        "name": "ክትፎ",
+        "description": "Finely minced beef seasoned with spiced butter and mitmita chili powder. Served raw, lightly cooked, or fully sautéed—rich, buttery, and boldly flavorful, paired with injera or gomen.",
+        "price": 130,
+        "image": "kitfo.jpg",
+        "category": "food"
+    },
+    {
+        "id": 10,
+        "name": "ጠጅ",
+        "description": "Tej (ተጅ) is a traditional Ethiopian honey wine fermented with wild honey and bitter-herbs (gesho), offering a smooth, golden, and uniquely sweet-yet-earthy flavor profile..",
+        "price": 25,
+        "image": "tej.jpg",
+        "category": "drink"
+    },
+    {
+        "id": 11,
+        "name": "ጠላ",
+        "description": "Tella (ጠላ): Traditional Ethiopian home-brewed beer crafted from fermented barley, wheat, or sorghum, and flavored with gesho (buckthorn) leaves. It has a cloudy appearance, a distinctly earthy, smoky, and bitter-sweet flavor, and a smooth, refreshing finish.",
+        "price": 30,
+        "image": "tela.jpg",
+        "category": "drink"
+    },
+    {
+        "id": 12,
+        "name": "ሃበሻ ቢራ",
+        "description": "Habesha Beer is a crisp and refreshing golden lager brewed in Ethiopia. Crafted with the finest malt, hops, and pure spring water, it offers a smooth, balanced taste with a subtle, pleasant bitterness and a clean finish.",
+        "price": 80,
+        "image": "Habesha beer.jpg",
+        "category": "drink"
+    },
+    {
+        "id": 13,
+        "name": "ቡና",
+        "description": "Freshly roasted and brewed in a clay jebena, this aromatic single-origin Arabica is celebrated in a rich cultural ritual. Served piping hot in traditional sini cups",
+        "price": 25,
+        "image": "coffee.jpg",
+        "category": "drink"
+    }
+]
