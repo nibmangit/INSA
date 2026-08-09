@@ -34,6 +34,14 @@ def create_order():
         
     return jsonify(order), 201
 
+def load_orders():
+    with open("orders.json", "r", encoding="utf-8") as file:
+        return json.load(file)
+
+@app.route('/api/orders', methods=["GET"])
+def get_orders():
+    orders = load_orders()
+    return jsonify(orders)
 
 if __name__ == "__main__":
     app.run(debug=True)

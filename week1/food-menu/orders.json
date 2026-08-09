@@ -15,5 +15,46 @@
         "subtotal": 105,
         "discount": 21,
         "total": 84
+    },
+    {
+        "items": [
+            {
+                "name": "ጠጅ",
+                "quantity": 1,
+                "price": 25
+            }
+        ],
+        "subtotal": 25,
+        "discount": 0,
+        "total": 25
+    },
+    {
+        "items": [
+            {
+                "name": "ቡና",
+                "quantity": 1,
+                "price": 25
+            }
+        ],
+        "subtotal": 25,
+        "discount": 0,
+        "total": 25
+    },
+    {
+        "items": [
+            {
+                "name": "ሃበሻ ቢራ",
+                "quantity": 1,
+                "price": 80
+            },
+            {
+                "name": "ቡና",
+                "quantity": 1,
+                "price": 25
+            }
+        ],
+        "subtotal": 105,
+        "discount": 21,
+        "total": 84
     }
 ]
