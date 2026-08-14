@@ -1,0 +1,119 @@
+/* Reset basic spacing */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #1e1e2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Chat Layout Box */
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    height: 85vh;
+    background-color: #252538;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column; 
+    overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+    background-color: #31314d;
+    text-align: center;
+    padding: 15px 20px;
+    color: #f8f8f2;
+    border-bottom: 1px solid #3f3f5c;
+}
+
+/* Scrollable message window */
+.chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Base message bubble structure */
+.message {
+    display: flex;
+    width: 100%;
+}
+
+.message-content {
+    max-width: 75%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Alignment and Colors */
+.user-message {
+    justify-content: flex-end;
+}
+
+.user-message .message-content {
+    background-color: #007acc;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message {
+    justify-content: flex-start;
+}
+
+.ai-message .message-content {
+    background-color: #3f3f5c;
+    color: #f8f8f2;
+    border-bottom-left-radius: 4px;
+}
+
+/* Fixed bottom input row */
+.input-container {
+    display: flex;
+    padding: 15px;
+    background-color: #1e1e2e;
+    border-top: 1px solid #3f3f5c;
+    gap: 10px;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 12px 16px;
+    background-color: #252538;
+    border: 1px solid #3f3f5c;
+    border-radius: 25px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+.input-container input:focus {
+    border-color: #007acc;
+}
+
+.input-container button {
+    padding: 12px 24px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer; 
+}
+
+.input-container button:hover {
+    background-color: #005999;
+}

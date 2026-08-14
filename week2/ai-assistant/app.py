@@ -20,12 +20,14 @@ def chat():
     if not message:
         return jsonify({"error":"Message is required"}), 400
     
-    response = client.models.generate_content(
-        model="models/gemini-3.6-flash",
-        contents=message
-    ) 
-    
-    return jsonify({"response": response.text})
-
+    try:
+        response = client.models.generate_content(
+            model="models/gemini-3.6-flash",
+            contents=message
+        ) 
+        
+        return jsonify({"response": response.text})
+    except Exception as e:
+        return jsonify({"error":"Faild to get Gemini response."}), 500
 if __name__ == "__main__":
     app.run(debug=True)

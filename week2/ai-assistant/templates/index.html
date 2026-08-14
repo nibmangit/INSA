@@ -3,11 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Assistant</title>
+    <title>AI Assistant Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-    <h1>AI Assistant</h1>
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <h2>AI Assistant</h2>
+        </div>
+
+        <!-- Chat History Window -->
+        <div class="chat-box" id="chat-box">
+            <!-- User Message Example -->
+            <div class="message user-message">
+                <div class="message-content">Hello! How can I use environment variables in Flask?</div>
+            </div>
+
+            <!-- AI Response Example -->
+            <div class="message ai-message">
+                <div class="message-content">You can use the built-in <code>os.environ.get()</code> method after installing <code>python-dotenv</code>!</div>
+            </div>
+        </div>
+
+        <!-- Input Form Area -->
+        <form class="input-container" id="chat-form">
+            <input type="text" name="user_input" id="user-input" placeholder="Type your message here..." required autocomplete="off">
+            <button type="submit">Send</button>
+        </form>
+    </div>
 
 </body>
 </html>
