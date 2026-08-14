@@ -9,7 +9,10 @@ def home():
 @app.route('/api/chat', methods=["POST"])
 def chat():
     data = request.get_json()
-    message = data["message"]
+    message = data.get("message")
+    if not message:
+        return jsonify({"error":"Message is required"}), 400
+    
     print("User Message: ", message)
     
     return jsonify({"response":"The message is recived seccessfully."})
