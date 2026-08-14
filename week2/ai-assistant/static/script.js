@@ -18,6 +18,10 @@ function addMessage(message, type) {
 
     messageElement.appendChild(content);
     chatBox.appendChild(messageElement);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    return content; 
 }
 
 
@@ -26,6 +30,8 @@ async function sendMessage() {
 
     addMessage(message, "user-message");
     input.value = "";
+
+    const thinkingElement = addMessage("Thinking .....", "ai-message");
 
     const response = await fetch("/api/chat", {
         method: "POST",
@@ -39,5 +45,5 @@ async function sendMessage() {
 
     const data = await response.json();
 
-    addMessage(data.response, "ai-message"); 
+    thinkingElement.textContent = data.response;
 }
