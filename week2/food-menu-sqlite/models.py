@@ -31,10 +31,7 @@ class Order(db.Model):
     total_price = db.Column(db.Float, nullable=False, default=0)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status = db.Column(db.String(20), nullable=False, default="Pending")
-
-    # ------------------------------------------------------------
-    # Helpers
-    # ------------------------------------------------------------
+ 
 
     def set_items(self, items_list):
         """Store a Python list of item dicts as JSON text, and keep

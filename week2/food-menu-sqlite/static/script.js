@@ -1,211 +1,162 @@
-let addButtons = document.getElementsByClassName("add-to-cart");
+const ordered_items_list = document.getElementById("selected-items-list");
+const total_price_display = document.getElementById("order-total");
+const check_out_button = document.getElementById("checkout-btn");
 
-let ordered_items_list = document.getElementById("selected-items-list")
+let orders = {};
+let prices = {};
 
-let total_price_display = document.getElementById("order-total")
+fetch("/api/menu")
+    .then(response => response.json())
+    .then(menu => displayMenu(menu))
+    .catch(error => console.error("Error loading menu:", error));
 
-let discout_display = document.getElementById("discount-notice")
+function displayMenu(menu) {
+    const foodMenu = document.getElementById("food-menu");
+    const drinkMenu = document.getElementById("drink-menu");
 
-let check_out_button = document.getElementById("checkout-btn")
+    for (const item of menu) {
+        const card = document.createElement("div");
+        card.className = "food-card";
 
-
-
-check_out_button.addEventListener("click", check_out_pressed )
-let orders = {
-
-}
-
-let prices = {
-
-}
-
-let totalPrice = 0
-
-
-for (let button of addButtons){
-    button.addEventListener("click", onAddButtonPressed)
-}
-
-function onAddButtonPressed(e){
-    let food = e.currentTarget.parentElement.querySelector("h3")
-    let price = e.currentTarget.parentElement.querySelector("span").innerText
-    price = parseInt(price)
-    
-    if (food.innerText in orders){
-        orders[food.innerText] += 1
-        prices[food.innerText] = price
-        showNotification(`added ${food.innerText} to order list!`)
-    }
-    else{
-        orders[food.innerText] = 1
-        prices[food.innerText] = price
-        showNotification(`added ${food.innerText} to order list!`)
-
-    }
-
-
-    ordered_items_list.innerHTML = "";
-
-    for (const[key, value] of Object.entries(orders)){
-        totalPrice = prices[key] * parseInt(value);
-
-        let li = document.createElement("li");
-
-        li.className = "summary-item";
-
-        li.innerHTML = `
-            <span><strong>${key}</strong>(${value} x ${prices[key]} birr) = ${totalPrice} birr</span>
-
-            <div class="summary-actions">
-        
-                <button data-item="${key}" class="qty-btn">+</button>
-
-                <span class="qty-display">${value}</span>
-
-                <button data-item="${key}" class="qty-btn">-</button>
-
-                <button data-item="${key}" class="remove-btn">Remove</button>
-
+        card.innerHTML = `
+            <img src="/static/${item.image}">
+            <div class="card-content">
+                <h3>${item.name}</h3>
+                <p>${item.description}</p>
+                <span class="price">${item.price} birr</span>
+                <button class="add-to-cart">Add to cart</button>
             </div>
         `;
 
-        li.querySelectorAll("button").forEach(btn => {
-            btn.addEventListener("click", change_quantity);
+        card.querySelector(".add-to-cart").addEventListener("click", onAddButtonPressed);
+
+        if (item.category === "food") {
+            foodMenu.appendChild(card);
+        } else if (item.category === "drinks") {
+            drinkMenu.appendChild(card);
+        }
+    }
+}
+
+function onAddButtonPressed(event) {
+    const card = event.currentTarget.parentElement;
+    const food = card.querySelector("h3").innerText;
+    const price = parseInt(card.querySelector(".price").innerText);
+
+    if (food in orders) {
+        orders[food] += 1;
+    } else {
+        orders[food] = 1;
+    }
+
+    prices[food] = price;
+    showNotification(`Added ${food} to order list!`);
+    displayOrderSummary();
+}
+
+function displayOrderSummary() {
+    ordered_items_list.innerHTML = "";
+    let total = 0;
+
+    for (const [key, quantity] of Object.entries(orders)) {
+        const itemTotal = prices[key] * quantity;
+        total += itemTotal;
+
+        const li = document.createElement("li");
+        li.className = "summary-item";
+
+        li.innerHTML = `
+            <span><strong>${key}</strong> (${quantity} × ${prices[key]} birr) = ${itemTotal} birr</span>
+            <div class="summary-actions">
+                <button data-item="${key}" class="qty-btn">+</button>
+                <span class="qty-display">${quantity}</span>
+                <button data-item="${key}" class="qty-btn">-</button>
+                <button data-item="${key}" class="remove-btn">Remove</button>
+            </div>
+        `;
+
+        li.querySelectorAll("button").forEach(button => {
+            button.addEventListener("click", changeQuantity);
         });
 
-       
-
         ordered_items_list.appendChild(li);
-
     }
 
-    let total_cost = 0;
-
-    for (const[key, value] of Object.entries(orders)){
-        total_cost += prices[key] * parseInt(value);
+    if (Object.keys(orders).length === 0) {
+        addNoOrdersYet();
     }
 
-    total_price_display.innerText = total_cost;
-
-    update_discount_display(total_cost);
-
+    total_price_display.innerText = total;
 }
 
+function changeQuantity(event) {
+    const key = event.currentTarget.dataset.item;
+    const action = event.currentTarget.innerText;
 
-function change_quantity(e){
-    let key = e.currentTarget.dataset.item;
-
-    if (e.currentTarget.innerText == "Remove"){
+    if (action === "Remove") {
         delete orders[key];
         delete prices[key];
-        e.currentTarget.closest("li").remove();
-
-        let total_cost = 0;
-
-        for (const[key, value] of Object.entries(orders)){
-                total_cost += prices[key] * parseInt(value);
-        }
-
-        total_price_display.innerText = total_cost;
-
-        update_discount_display(total_cost)
-
-        if (Object.keys(orders).length <= 0){
-            add_no_orders_yet()
-        }
+        displayOrderSummary();
         return;
     }
 
-
-    if (e.currentTarget.innerText == "+"){
-        if (key in orders){
-            orders[key] += 1;
-        }
-
-    }
-    else if (e.currentTarget.innerText == "-"){
-        if (key in orders){
-            orders[key] -= 1;
-        }
+    if (action === "+") {
+        orders[key] += 1;
     }
 
-    let total_cost = 0;
-
-    for (const[key, value] of Object.entries(orders)){
-        total_cost += prices[key] * parseInt(value);
+    if (action === "-") {
+        orders[key] -= 1;
     }
 
-    total_price_display.innerText = total_cost;
-
-    update_discount_display(total_cost)
-
-    if (orders[key] <= 0){
+    if (orders[key] <= 0) {
         delete orders[key];
         delete prices[key];
-        e.currentTarget.closest("li").remove();
-
-        if (Object.keys(orders).length <= 0){
-            add_no_orders_yet()
-        }
-
-
-        return;
     }
 
-    let totalPrice = prices[key] * parseInt(orders[key]);
-
-    e.currentTarget.parentElement.parentElement.querySelector("span").innerHTML =  `<span><strong>${key}</strong> = ${totalPrice} birr</span>`;
-
-    e.currentTarget.parentElement.querySelector("span").innerHTML = `<span class="qty-display">${orders[key]}</span>`;
-
-   
+    displayOrderSummary();
 }
 
-async function check_out_pressed(E){
-    if (Object.keys(orders).length <= 0){
-        alert("no orders!")
+check_out_button.addEventListener("click", checkOutPressed);
+
+async function checkOutPressed() {
+    if (Object.keys(orders).length === 0) {
+        alert("No orders!");
         return;
     }
 
-    let items = [];
-    for (const [key, value] of Object.entries(orders)){
-        items.push({ name: key, price: prices[key], qty: value });
+    const items = [];
+
+    for (const [name, quantity] of Object.entries(orders)) {
+        items.push({ name: name, price: prices[name], qty: quantity });
     }
 
-    let customerNameInput = document.getElementById("customer-name");
-    let customerName = customerNameInput ? customerNameInput.value.trim() : "";
+    const customerInput = document.getElementById("customer-name");
+    const customer = customerInput.value.trim() || "Guest";
 
     check_out_button.disabled = true;
     check_out_button.innerText = "Sending order...";
 
     try {
-        let response = await fetch("/api/orders", {
+        const response = await fetch("/api/orders", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ items: items, customer: customerName || "Guest" })
+            body: JSON.stringify({ customer: customer, items: items })
         });
 
-        let savedOrder = await response.json();
+        const data = await response.json();
 
-        if (!response.ok){
-            throw new Error(savedOrder.error || "Could not submit the order.");
+        if (!response.ok) {
+            throw new Error(data.error || "Could not submit order.");
         }
 
-        alert(`check out sucessfull! Order #${savedOrder.id} - total ${savedOrder.total} birr`);
+        alert(`Order successful! Order #${data.id}`);
 
-        ordered_items_list.innerHTML = '';
-        total_price_display.innerText = 0;
+        orders = {};
+        prices = {};
+        customerInput.value = "";
 
-        for (const key in orders) {
-            delete orders[key];
-        }
-        for (const key in prices) {
-            delete prices[key];
-        }
+        displayOrderSummary();
 
-        add_no_orders_yet();
-        discout_display.innerText = '';
-        if (customerNameInput) customerNameInput.value = "";
     } catch (error) {
         alert(`Something went wrong: ${error.message}`);
     } finally {
@@ -214,55 +165,24 @@ async function check_out_pressed(E){
     }
 }
 
-function update_discount_display(total_cost){
-     if (total_cost > 100){
-        discout_display.innerText = "20% discount applied"
-
-        total_price_display.innerText = Math.round(total_cost * 0.8);
-    }
-    else if(total_cost > 50){
-        discout_display.innerText = "10% discount applied"
-
-        total_price_display.innerText = Math.round(total_cost * 0.9);
-    }
-    else{
-        discout_display.innerText = ''
-
-        let total_cost = 0;
-
-        for (const[key, value] of Object.entries(orders)){
-                total_cost += prices[key] * parseInt(value);
-        }
-
-        total_price_display.innerText = total_cost;
-    }
-}
-
-function add_no_orders_yet(){
-    let li = document.createElement("li");
+function addNoOrdersYet() {
+    const li = document.createElement("li");
     li.className = "summary-item";
-    li.innerHTML = `no orders yet.`
+    li.innerText = "no orders yet.";
     ordered_items_list.appendChild(li);
 }
 
-let notification_timeout;
+let notificationTimeout;
 
 function showNotification(message) {
-    const notification = document.getElementById('notification');
-    
+    const notification = document.getElementById("notification");
+
     notification.innerText = message;
-    
-    notification.classList.add('show');
+    notification.classList.add("show");
 
-    clearTimeout(notification_timeout)
+    clearTimeout(notificationTimeout);
 
-    notification_timeout=setTimeout(() => {
-        notification.classList.remove('show');
+    notificationTimeout = setTimeout(() => {
+        notification.classList.remove("show");
     }, 2000);
 }
-
-// Confirms the Flask backend is reachable when the page loads.
-fetch("/api/menu")
-    .then(response => response.json())
-    .then(menu => console.log(`Menu loaded from Flask backend: ${menu.length} items.`))
-    .catch(() => console.warn("Could not reach /api/menu - is the Flask server running?"));

@@ -1,25 +1,3 @@
-"""
-ጣይቱ ምግብ ቤት (Taytu Migib Bet) — Flask backend
-==============================================
-Serves the existing Interactive Food Menu front end and exposes a
-small JSON API so the page's JavaScript can talk to a real backend.
-
-Endpoints
----------
-GET  /                -> renders templates/index.html
-GET  /api/menu         -> the full menu as JSON
-POST /api/orders       -> submit a new order (saved to SQLite)
-GET  /api/orders       -> read back every saved order
-
-Admin
------
-GET/POST /admin/orders -> view every order, cancel it, or delete it
-GET/POST /admin/add    -> manually add a new order
-
-Orders are persisted to a SQLite database (orders.db) through
-Flask-SQLAlchemy — orders.json is no longer used.
-"""
-
 import json
 import os
 
@@ -41,48 +19,22 @@ with app.app_context():
     db.create_all()
 
 
-def calculate_total(items):
-    """Sum price * qty across every item in an order."""
+def calculate_total(items): 
     return sum(item["price"] * item["qty"] for item in items)
 
 
-# ---------------------------------------------------------------
-# Front end
-# ---------------------------------------------------------------
-
 @app.route("/")
-def index():
-    """Serve the existing menu page from templates/index.html."""
+def index(): 
     return render_template("index.html")
-
-
-# ---------------------------------------------------------------
-# API: menu
-# ---------------------------------------------------------------
+ 
 
 @app.route("/api/menu", methods=["GET"])
-def get_menu():
-    """Return the full food + drinks menu as JSON."""
+def get_menu(): 
     return jsonify(MENU), 200
-
-
-# ---------------------------------------------------------------
-# API: orders (used by the customer-facing page)
-# ---------------------------------------------------------------
+ 
 
 @app.route("/api/orders", methods=["POST"])
-def create_order():
-    """Receive a customer order and save it to SQLite.
-
-    Expected JSON body:
-        {
-          "customer": "Abebe",
-          "items": [ { "name": "...", "price": 3, "qty": 2 }, ... ]
-        }
-
-    Rejects the order (400) if it has no items, so an empty order
-    can never be saved even if the front-end check is bypassed.
-    """
+def create_order(): 
     data = request.get_json(silent=True)
 
     if not data or not isinstance(data.get("items"), list) or len(data["items"]) == 0:
@@ -106,25 +58,13 @@ def create_order():
 
 
 @app.route("/api/orders", methods=["GET"])
-def get_orders():
-    """Return every order saved so far, most recent first."""
+def get_orders(): 
     orders = Order.query.order_by(Order.created_at.desc()).all()
     return jsonify([o.to_dict() for o in orders]), 200
-
-
-# ---------------------------------------------------------------
-# Admin: /admin/orders
-# ---------------------------------------------------------------
+ 
 
 @app.route("/admin/orders", methods=["GET", "POST"])
-def admin_orders():
-    """Display every order, and handle cancel/delete actions.
-
-    A single route handles both viewing the order list and acting on
-    it (cancel or delete), since only /admin/orders and /admin/add
-    are allowed as admin routes. The action is picked with a hidden
-    "action" field in each order's form.
-    """
+def admin_orders(): 
     if request.method == "POST":
         order_id = request.form.get("order_id", type=int)
         action = request.form.get("action")
@@ -145,15 +85,10 @@ def admin_orders():
 
     orders = Order.query.order_by(Order.created_at.desc()).all()
     return render_template("admin/orders.html", orders=orders)
-
-
-# ---------------------------------------------------------------
-# Admin: /admin/add
-# ---------------------------------------------------------------
+ 
 
 @app.route("/admin/add", methods=["GET", "POST"])
-def admin_add():
-    """Let the admin manually add a new order."""
+def admin_add(): 
     error = None
 
     if request.method == "POST":
@@ -176,9 +111,7 @@ def admin_add():
             )
         else:
             order = Order(customer=customer, quantity=quantity, total_price=total_price)
-            # Manually-added orders are entered as one free-text item
-            # line (name = whatever the admin typed) rather than
-            # picked from the menu.
+             
             order.items = json.dumps(
                 [{"name": food_items, "price": total_price, "qty": quantity}],
                 ensure_ascii=False,
